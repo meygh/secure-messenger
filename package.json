@@ -1,0 +1,26 @@
+{
+  "name": "secure-messenger",
+  "version": "1.0.0",
+  "description": "A secure chat messenger app via AES encryption method",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/meygh/secure-messenger.git"
+  },
+  "keywords": [
+    "secure",
+    "messenger",
+    "chat",
+    "encription"
+  ],
+  "author": "Meisam Ghanbari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meygh/secure-messenger/issues"
+  },
+  "homepage": "https://github.com/meygh/secure-messenger#readme"
+}
