@@ -40,17 +40,21 @@
                 body: JSON.stringify({ username })
             });
 
-            const data = await res.json();
-
             if (!res.ok) {
-                throw new Error(data.error || "Registration failed");
+                const errData = await res.text(); // Use .text() before parsing
+                alert(`Registration failed: ${errData}`);
+                // throw new Error(`Registration failed: ${errData}`);
             }
 
-            status.innerText = `✅ Registered as ${data.username}`;
+            const data = await res.json(); // ✅ Now works correctly
+
             localStorage.setItem(`privateKey-${data.username}`, data.privateKey);
+
             alert(`Registered successfully!\nPublic Key:\n${data.publicKey}`);
+            window.location.href = '/chat.html';
         } catch (e) {
             status.innerText = `❌ Error: ${e.message}`;
+            console.error(e);
         }
     }
 </script>

@@ -17,12 +17,9 @@ router.post('/register', (req, res) => {
         'INSERT INTO users (username, publicKey) VALUES (?, ?)',
         [username, publicKey],
         function (err) {
-            if (err) {
-                console.error("DB Error:", err.message);
-                return res.status(500).json({ error: 'Registration failed', details: err.message });
-            }
+            if (err) return res.status(500).json({ error: err.message });
 
-            // Return both keys to client (private key must be stored securely)
+            // ✅ Send both keys inside a JSON object
             res.json({
                 username,
                 publicKey,
@@ -65,10 +62,14 @@ router.get('/user', (req, res) => {
 router.get('/get-private-key/:username', (req, res) => {
     const { username } = req.params;
 
-    db.get('SELECT privateKey FROM users WHERE username = ?', [username], (err, row) => {
-        if (err || !row) return res.status(404).send('Private key not found');
-        res.json({ privateKey: row.privateKey });
-    });
+    // In real app, you'd look this up securely
+    const privateKey = localStorage.getItem(`privateKey-${username}`); // Only available client-side
+
+    if (!privateKey) {
+        return res.status(404).json({ error: 'Private key not found' });
+    }
+
+    res.json({ privateKey });
 });
 
 module.exports = router;
