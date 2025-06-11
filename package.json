@@ -2,10 +2,10 @@
   "name": "secure-messenger",
   "version": "1.0.0",
   "description": "A secure chat messenger app via AES encryption method",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,14 @@
   "bugs": {
     "url": "https://github.com/meygh/secure-messenger/issues"
   },
-  "homepage": "https://github.com/meygh/secure-messenger#readme"
+  "homepage": "https://github.com/meygh/secure-messenger#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "crypto": "^1.0.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "socket.io": "^4.8.1",
+    "sqlite3": "^5.1.7"
+  }
 }

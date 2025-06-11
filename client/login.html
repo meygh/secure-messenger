@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login - Secure Chat</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        label, input, button { display: block; margin-bottom: 10px; width: 100%; max-width: 300px; }
+    </style>
+</head>
+<body>
+<h1>🔓 Login</h1>
+<form id="loginForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" required />
+
+    <button type="submit">Login</button>
+</form>
+
+<p id="status"></p>
+
+<script src="dist/libsodium.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+
+        const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        });
+
+        if (res.ok) {
+            window.location.href = '/chat.html';
+        } else {
+            alert("Login failed");
+        }
+    });
+</script>
+</body>
+</html>
