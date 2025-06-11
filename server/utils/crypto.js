@@ -2,11 +2,18 @@ const crypto = require('crypto');
 
 // Generate RSA key pair
 function generateRSAKeyPair() {
-    const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
         modulusLength: 2048,
-        publicKeyEncoding: { type: 'spki', format: 'pem' },
-        privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+        publicKeyEncoding: {
+            type: 'spki',
+            format: 'pem'
+        },
+        privateKeyEncoding: {
+            type: 'pkcs8',
+            format: 'pem'
+        }
     });
+
     return { publicKey, privateKey };
 }
 

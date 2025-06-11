@@ -14,11 +14,45 @@
     <label for="username">Username:</label>
     <input type="text" id="username" required />
 
-    <button type="submit">Register</button>
+    <button onclick="registerUser()">Register</button>
 </form>
 
 <p id="status"></p>
 
-<script src="dist/libsodium.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+
+<script>
+    async function registerUser() {
+        const input = document.getElementById('username');
+        const status = document.getElementById('status');
+        const username = input.value.trim();
+
+        if (!username) {
+            status.innerText = "Please enter a username.";
+            return;
+        }
+
+        try {
+            const res = await fetch('/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || "Registration failed");
+            }
+
+            status.innerText = `✅ Registered as ${data.username}`;
+            localStorage.setItem(`privateKey-${data.username}`, data.privateKey);
+            alert(`Registered successfully!\nPublic Key:\n${data.publicKey}`);
+        } catch (e) {
+            status.innerText = `❌ Error: ${e.message}`;
+        }
+    }
+</script>
 </body>
 </html>

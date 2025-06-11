@@ -6,16 +6,28 @@ const { generateRSAKeyPair } = require('../utils/crypto');
 // Register route
 router.post('/register', (req, res) => {
     const { username } = req.body;
-    const { publicKey, privateKey } = generateRSAKeyPair(); // Save both
 
-    console.log('User: ', username, publicKey);
+    if (!username) {
+        return res.status(400).json({ error: 'Username required' });
+    }
+
+    const { publicKey, privateKey } = generateRSAKeyPair();
 
     db.run(
         'INSERT INTO users (username, publicKey) VALUES (?, ?)',
         [username, publicKey],
         function (err) {
-            if (err) return res.status(500).send(err.message);
-            res.json({ username, publicKey });
+            if (err) {
+                console.error("DB Error:", err.message);
+                return res.status(500).json({ error: 'Registration failed', details: err.message });
+            }
+
+            // Return both keys to client (private key must be stored securely)
+            res.json({
+                username,
+                publicKey,
+                privateKey
+            });
         }
     );
 });

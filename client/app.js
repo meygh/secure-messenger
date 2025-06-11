@@ -6,6 +6,8 @@ let myRSAKeys = null;
 let myECDHKeys = null;
 let sharedKey = null;
 
+connectSocket();
+
 function waitForSodium() {
     return new Promise((resolve) => {
         const check = () => {
@@ -24,7 +26,6 @@ function waitForSodium() {
 document.addEventListener('DOMContentLoaded', async () => {
     await waitForSodium();
     loadCurrentUser();
-    connectSocket();
 
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
